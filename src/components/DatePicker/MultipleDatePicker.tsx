@@ -5,7 +5,6 @@ import Calendar from './Calendar';
 import Week from './Week';
 
 import { addMonths } from 'date-fns';
-import { DayType } from './Calendar/type';
 import { DateRulesFn } from './utils/dayListGenerator';
 import format from 'date-fns/format';
 import { DatePickerStyleConfig, defaultDatePickerStyle } from './type';

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Box, Center } from '@chakra-ui/react';
 import Normal from './Normal';
 import None from './None';
 import Disable from './Disable';
