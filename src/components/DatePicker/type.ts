@@ -9,7 +9,7 @@ export type DatePickerStyleConfig = {
 };
 
 export const defaultDatePickerStyle: DatePickerStyleConfig = {
-  bgColor: 'gray.900',
+  bgColor: 'gray.700',
   color: 'white',
   weekStyle: defaultWeekStyleConfig,
   dayStyle: defaultDayStyle,

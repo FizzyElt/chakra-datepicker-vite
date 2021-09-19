@@ -20,7 +20,7 @@ export type DayStyleConfig = {
 
 export const defaultDayStyle: DayStyleConfig = {
   fontSize: 'md',
-  size: 8,
+  size: 10,
   color: 'white',
   activeBgColor: 'teal.500',
   activeColor: 'white',
