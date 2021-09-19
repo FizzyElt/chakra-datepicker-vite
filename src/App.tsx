@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Box, VStack, Text } from '@chakra-ui/react';
+import { Box, VStack, Text, HStack, Flex } from '@chakra-ui/react';
 import PageContainer from './container/PageContainer';
 import { SingleDatePicker, MultipleDatePicker } from './components/DatePicker';
 import { DayType } from './components/DatePicker/Calendar/type';
 import { format, getTime } from 'date-fns';
-import { DatePickerStyleConfig } from './components/DatePicker/type';
+import { DatePickerStyleConfig, defaultDatePickerStyle } from './components/DatePicker/type';
+import StyleSettingForm from './components/StyleSettingsForm';
 
 export default function App() {
   // single date picker block
@@ -81,42 +82,42 @@ export default function App() {
     });
   };
 
-  const datePickerStyle: Partial<DatePickerStyleConfig> = {
-    dayStyle: {
-      size: 10,
-    },
-    weekStyle: {
-      bgColor: '#333333',
-    },
-  };
-
+  const [datePickerStyle, setDatePickerStyle] =
+    useState<DatePickerStyleConfig>(defaultDatePickerStyle);
   return (
     <PageContainer>
-      <VStack>
-        <Box m="auto" maxW="400px">
-          <Text color="white">{format(selectedDate, 'yyyy / MM / dd')}</Text>
-          <SingleDatePicker
-            selectedDate={selectedDate}
-            datePickerStyle={datePickerStyle}
-            onSetDate={(date) => setSelectedDate(date)}
-            onDayTypeRulesFn={handleDayRulesFn}
-          />
-        </Box>
+      <Flex justify="space-between">
+        <VStack align="stretch" spacing={8}>
+          <Box w="fit-content">
+            <Text color="white">{format(selectedDate, 'yyyy / MM / dd')}</Text>
+            <SingleDatePicker
+              selectedDate={selectedDate}
+              datePickerStyle={datePickerStyle}
+              onSetDate={(date) => setSelectedDate(date)}
+              onDayTypeRulesFn={handleDayRulesFn}
+            />
+          </Box>
 
-        <Box>
-          <Text color="white">
-            {rangeDate.start ? format(rangeDate.start, 'yyyy / MM / dd') : '???? / ?? / ??'}
-            {' ~ '}
-            {rangeDate.end ? format(rangeDate.end, 'yyyy / MM / dd') : '???? / ?? / ??'}
-          </Text>
-          <MultipleDatePicker
-            selectedDate={new Date()}
-            datePickerStyle={datePickerStyle}
-            onDayTypeRulesFn={handleMultiDayRulesFn}
-            onSetDate={handleSetRangeDate}
-          />
-        </Box>
-      </VStack>
+          <Box>
+            <Text color="white">
+              {rangeDate.start ? format(rangeDate.start, 'yyyy / MM / dd') : '???? / ?? / ??'}
+              {' ~ '}
+              {rangeDate.end ? format(rangeDate.end, 'yyyy / MM / dd') : '???? / ?? / ??'}
+            </Text>
+            <MultipleDatePicker
+              selectedDate={new Date()}
+              datePickerStyle={datePickerStyle}
+              onDayTypeRulesFn={handleMultiDayRulesFn}
+              onSetDate={handleSetRangeDate}
+            />
+          </Box>
+        </VStack>
+
+        <StyleSettingForm
+          datePickerStyleConfig={datePickerStyle}
+          onSetDatePIckerStyleConfig={(styleConfig) => setDatePickerStyle(styleConfig)}
+        />
+      </Flex>
     </PageContainer>
   );
 }
