@@ -86,7 +86,7 @@ const handleDayRulesFn = (date: Date): DayType => {
 };
 ```
 
-示意圖
+示意圖<br/>
 ![demo](./README_IMAGE/datepicker.png)
 
 ### 優點
