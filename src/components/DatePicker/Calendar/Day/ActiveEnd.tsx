@@ -7,17 +7,22 @@ type ActiveEndProps = {
   dayStyleConfig: DayStyleConfig;
 } & CenterProps;
 
-export default function ActiveEnd({ day, dayStyleConfig, ...props }: ActiveEndProps) {
-  const { size, color, activeBgColor, activeColor, periodBgColor, fontSize } = dayStyleConfig;
+export default function ActiveEnd({
+  day,
+  dayStyleConfig,
+  ...props
+}: ActiveEndProps) {
+  const { size, activeBgColor, activeColor, periodBgColor, fontSize } =
+    dayStyleConfig;
 
   return (
     <Center
       {...props}
-      m="auto"
+      m='auto'
       h={size}
       w={size}
-      cursor="pointer"
-      pos="relative"
+      cursor='pointer'
+      pos='relative'
       _before={{
         content: '""',
         pos: 'absolute',
@@ -39,7 +44,7 @@ export default function ActiveEnd({ day, dayStyleConfig, ...props }: ActiveEndPr
         bgColor: periodBgColor,
       }}
     >
-      <Text pos="relative" fontSize={fontSize} zIndex="2" color={activeColor}>
+      <Text pos='relative' fontSize={fontSize} zIndex='2' color={activeColor}>
         {day}
       </Text>
     </Center>

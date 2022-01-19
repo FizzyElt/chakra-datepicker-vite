@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-import { HStack, VStack, IconButton, IconButtonProps, Flex, Text, Box } from '@chakra-ui/react';
+import {
+  HStack,
+  VStack,
+  IconButton,
+  IconButtonProps,
+  Flex,
+  Text,
+  Box,
+} from '@chakra-ui/react';
 import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import Calendar from './Calendar';
 import Week from './Week';
 
-import { addMonths } from 'date-fns';
+import { addMonths, format } from 'date-fns';
+import * as R from 'ramda';
+
 import { DateRulesFn } from './utils/dayListGenerator';
-import format from 'date-fns/format';
 import { DatePickerStyleConfig, defaultDatePickerStyle } from './type';
 
 type MultipleDatePickerProps = {
@@ -26,17 +35,17 @@ export default function MultipleDatePicker({
   const nextMonth = addMonths(controlDate, 1);
 
   const handleNextMonth = () => {
-    setControlDate(addMonths(controlDate, 1));
+    setControlDate((prev) => addMonths(prev, 1));
   };
 
   const handlePrevMonth = () => {
-    setControlDate(addMonths(controlDate, -1));
+    setControlDate((prev) => addMonths(prev, -1));
   };
 
-  const mergedDatePickerStyle: DatePickerStyleConfig = {
-    ...defaultDatePickerStyle,
-    ...(datePickerStyle || {}),
-  };
+  const mergedDatePickerStyle: DatePickerStyleConfig = R.mergeRight(
+    defaultDatePickerStyle,
+    datePickerStyle || {}
+  );
 
   const btnBaseStyle: Omit<IconButtonProps, 'aria-label'> = {
     bgColor: 'transparent',
@@ -49,21 +58,30 @@ export default function MultipleDatePicker({
     _focus: {},
   };
   return (
-    <VStack align="stretch" bgColor={mergedDatePickerStyle.bgColor} borderRadius="5px" spacing={0}>
-      <Flex justify="space-around" pos="relative" py={2}>
+    <VStack
+      align='stretch'
+      bgColor={mergedDatePickerStyle.bgColor}
+      borderRadius='5px'
+      spacing={0}
+    >
+      <Flex justify='space-around' pos='relative' py={2}>
         <IconButton
           {...btnBaseStyle}
-          left="0"
-          aria-label="prev month"
+          left='0'
+          aria-label='prev month'
           icon={<ChevronLeftIcon />}
           onClick={handlePrevMonth}
         />
-        <Text color={mergedDatePickerStyle.color}>{format(controlDate, 'MMMM')}</Text>
-        <Text color={mergedDatePickerStyle.color}>{format(nextMonth, 'MMMM')}</Text>
+        <Text color={mergedDatePickerStyle.color}>
+          {format(controlDate, 'MMMM')}
+        </Text>
+        <Text color={mergedDatePickerStyle.color}>
+          {format(nextMonth, 'MMMM')}
+        </Text>
         <IconButton
           {...btnBaseStyle}
-          right="0"
-          aria-label="next month"
+          right='0'
+          aria-label='next month'
           icon={<ChevronRightIcon />}
           onClick={handleNextMonth}
         />

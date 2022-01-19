@@ -13,11 +13,11 @@ export default function Normal({ day, dayStyleConfig, ...props }: NormalProps) {
   return (
     <Center
       {...props}
-      m="auto"
+      m='auto'
       h={size}
       w={size}
-      cursor="pointer"
-      pos="relative"
+      cursor='pointer'
+      pos='relative'
       color={color}
       _hover={{
         color: activeColor,
@@ -35,7 +35,7 @@ export default function Normal({ day, dayStyleConfig, ...props }: NormalProps) {
         transition: '0.3s',
       }}
     >
-      <Text pos="relative" fontSize={fontSize} color="inherit" zIndex="1">
+      <Text pos='relative' fontSize={fontSize} color='inherit' zIndex='1'>
         {day}
       </Text>
     </Center>

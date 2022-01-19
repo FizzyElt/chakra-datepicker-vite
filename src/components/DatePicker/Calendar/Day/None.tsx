@@ -7,5 +7,12 @@ type NoneProps = {
 };
 
 export default function None({ dayStyleConfig }: NoneProps) {
-  return <Center m="auto" h={dayStyleConfig.size} w={dayStyleConfig.size} color="white" />;
+  return (
+    <Center
+      m='auto'
+      h={dayStyleConfig.size}
+      w={dayStyleConfig.size}
+      color='white'
+    />
+  );
 }

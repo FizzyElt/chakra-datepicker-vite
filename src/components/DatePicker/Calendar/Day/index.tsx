@@ -1,11 +1,15 @@
 import React from 'react';
-import Normal from './Normal';
+
 import None from './None';
-import Disable from './Disable';
+import Normal from './Normal';
 import Active from './Active';
 import Period from './Period';
-import ActiveStart from './ActiveStart';
+import Disable from './Disable';
 import ActiveEnd from './ActiveEnd';
+import ActiveStart from './ActiveStart';
+
+import * as R from 'ramda';
+
 import { DayType } from '../type';
 import { DayStyleConfig, defaultDayStyle } from '../type';
 
@@ -27,9 +31,10 @@ export default function Day({
   onSetDate,
   dayStyleConfig,
 }: DayProps) {
-  const mergedDayStyleConfig: DayStyleConfig = dayStyleConfig
-    ? { ...defaultDayStyle, ...dayStyleConfig }
-    : defaultDayStyle;
+  const mergedDayStyleConfig: DayStyleConfig = R.mergeRight(
+    defaultDayStyle,
+    dayStyleConfig || {}
+  );
 
   switch (dayType) {
     case DayType.NONE:
@@ -40,7 +45,11 @@ export default function Day({
       return <Disable dayStyleConfig={mergedDayStyleConfig} day={day} />;
     case DayType.PERIOD:
       return (
-        <Period dayStyleConfig={mergedDayStyleConfig} day={day} onClick={() => onSetDate?.(date)} />
+        <Period
+          dayStyleConfig={mergedDayStyleConfig}
+          day={day}
+          onClick={() => onSetDate?.(date)}
+        />
       );
     case DayType.ACTIVE_START:
       return <ActiveStart day={day} dayStyleConfig={mergedDayStyleConfig} />;
@@ -54,7 +63,11 @@ export default function Day({
       );
     case DayType.NORMAL:
       return (
-        <Normal onClick={() => onSetDate?.(date)} dayStyleConfig={mergedDayStyleConfig} day={day} />
+        <Normal
+          onClick={() => onSetDate?.(date)}
+          dayStyleConfig={mergedDayStyleConfig}
+          day={day}
+        />
       );
 
     default:

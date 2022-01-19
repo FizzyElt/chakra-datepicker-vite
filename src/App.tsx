@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
-import { Box, VStack, Text, HStack, Flex } from '@chakra-ui/react';
+
+import { Box, VStack, Text, Flex } from '@chakra-ui/react';
 import PageContainer from './container/PageContainer';
+import StyleSettingForm from './components/StyleSettingsForm';
+
+import {
+  DatePickerStyleConfig,
+  defaultDatePickerStyle,
+} from './components/DatePicker/type';
 import { SingleDatePicker, MultipleDatePicker } from './components/DatePicker';
 import { DayType } from './components/DatePicker/Calendar/type';
-import { format, getTime } from 'date-fns';
-import { DatePickerStyleConfig, defaultDatePickerStyle } from './components/DatePicker/type';
-import StyleSettingForm from './components/StyleSettingsForm';
+
+import { format, isSameDay, isAfter, isBefore } from 'date-fns';
 
 export default function App() {
   // single date picker block
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleDayRulesFn = (date: Date): DayType => {
-    if (format(date, 'yyyy/MM/dd') === format(selectedDate, 'yyyy/MM/dd')) {
+    if (isSameDay(selectedDate, date)) {
       return DayType.ACTIVE;
     }
 
@@ -29,11 +35,7 @@ export default function App() {
   });
 
   const handleMultiDayRulesFn = (date: Date) => {
-    if (
-      rangeDate.start &&
-      !rangeDate.end &&
-      format(rangeDate.start, 'yyyy/MM/dd') === format(date, 'yyyy/MM/dd')
-    ) {
+    if (rangeDate.start && !rangeDate.end && isSameDay(rangeDate.start, date)) {
       return DayType.ACTIVE;
     }
 
@@ -41,17 +43,15 @@ export default function App() {
       return DayType.NORMAL;
     }
 
-    if (format(date, 'yyyy/MM/dd') === format(rangeDate.start, 'yyyy/MM/dd')) {
+    if (isSameDay(rangeDate.start, date)) {
       return DayType.ACTIVE_START;
     }
 
-    if (format(date, 'yyyy/MM/dd') === format(rangeDate.end, 'yyyy/MM/dd')) {
+    if (isSameDay(rangeDate.end, date)) {
       return DayType.ACTIVE_END;
     }
 
-    const dateMilliseconds = getTime(date);
-
-    if (getTime(rangeDate.start) < dateMilliseconds && dateMilliseconds < getTime(rangeDate.end)) {
+    if (isAfter(date, rangeDate.start) && isBefore(date, rangeDate.end)) {
       return DayType.PERIOD;
     }
 
@@ -69,7 +69,7 @@ export default function App() {
 
     if (!rangeDate.end) {
       setRangeDate((prev) => {
-        return prev.start && getTime(date) < getTime(prev.start)
+        return prev.start && isBefore(date, prev.start)
           ? { start: date, end: prev.start }
           : { ...prev, end: date };
       });
@@ -82,14 +82,15 @@ export default function App() {
     });
   };
 
-  const [datePickerStyle, setDatePickerStyle] =
-    useState<DatePickerStyleConfig>(defaultDatePickerStyle);
+  const [datePickerStyle, setDatePickerStyle] = useState<DatePickerStyleConfig>(
+    defaultDatePickerStyle
+  );
   return (
     <PageContainer>
-      <Flex justify="space-between">
-        <VStack align="stretch" spacing={8}>
-          <Box w="fit-content">
-            <Text color="white">{format(selectedDate, 'yyyy / MM / dd')}</Text>
+      <Flex justify='space-between'>
+        <VStack align='stretch' spacing={8}>
+          <Box w='fit-content'>
+            <Text color='white'>{format(selectedDate, 'yyyy / MM / dd')}</Text>
             <SingleDatePicker
               selectedDate={selectedDate}
               datePickerStyle={datePickerStyle}
@@ -99,10 +100,14 @@ export default function App() {
           </Box>
 
           <Box>
-            <Text color="white">
-              {rangeDate.start ? format(rangeDate.start, 'yyyy / MM / dd') : '???? / ?? / ??'}
+            <Text color='white'>
+              {rangeDate.start
+                ? format(rangeDate.start, 'yyyy / MM / dd')
+                : '???? / ?? / ??'}
               {' ~ '}
-              {rangeDate.end ? format(rangeDate.end, 'yyyy / MM / dd') : '???? / ?? / ??'}
+              {rangeDate.end
+                ? format(rangeDate.end, 'yyyy / MM / dd')
+                : '???? / ?? / ??'}
             </Text>
             <MultipleDatePicker
               selectedDate={new Date()}
@@ -115,7 +120,9 @@ export default function App() {
 
         <StyleSettingForm
           datePickerStyleConfig={datePickerStyle}
-          onSetDatePIckerStyleConfig={(styleConfig) => setDatePickerStyle(styleConfig)}
+          onSetDatePIckerStyleConfig={(styleConfig) =>
+            setDatePickerStyle(styleConfig)
+          }
         />
       </Flex>
     </PageContainer>

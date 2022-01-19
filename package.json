@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.15",
-    "@chakra-ui/react": "^1.6.7",
+    "@chakra-ui/react": "^1.7.5",
+    "@types/ramda": "^0.27.64",
     "date-fns": "^2.24.0",
+    "ramda": "^0.28.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
