@@ -4,10 +4,7 @@ import { Box, VStack, Text, Flex } from '@chakra-ui/react';
 import PageContainer from './container/PageContainer';
 import StyleSettingForm from './components/StyleSettingsForm';
 
-import {
-  DatePickerStyleConfig,
-  defaultDatePickerStyle,
-} from './components/DatePicker/type';
+import { DatePickerStyleConfig, defaultDatePickerStyle } from './components/DatePicker/type';
 import { SingleDatePicker, MultipleDatePicker } from './components/DatePicker';
 import { DayType } from './components/DatePicker/Calendar/type';
 
@@ -82,15 +79,14 @@ export default function App() {
     });
   };
 
-  const [datePickerStyle, setDatePickerStyle] = useState<DatePickerStyleConfig>(
-    defaultDatePickerStyle
-  );
+  const [datePickerStyle, setDatePickerStyle] =
+    useState<DatePickerStyleConfig>(defaultDatePickerStyle);
   return (
     <PageContainer>
-      <Flex justify='space-between'>
-        <VStack align='stretch' spacing={8}>
-          <Box w='fit-content'>
-            <Text color='white'>{format(selectedDate, 'yyyy / MM / dd')}</Text>
+      <Flex justify="space-between">
+        <VStack align="stretch" spacing={8}>
+          <Box w="fit-content">
+            <Text color="white">{format(selectedDate, 'yyyy / MM / dd')}</Text>
             <SingleDatePicker
               selectedDate={selectedDate}
               datePickerStyle={datePickerStyle}
@@ -100,14 +96,10 @@ export default function App() {
           </Box>
 
           <Box>
-            <Text color='white'>
-              {rangeDate.start
-                ? format(rangeDate.start, 'yyyy / MM / dd')
-                : '???? / ?? / ??'}
+            <Text color="white">
+              {rangeDate.start ? format(rangeDate.start, 'yyyy / MM / dd') : '???? / ?? / ??'}
               {' ~ '}
-              {rangeDate.end
-                ? format(rangeDate.end, 'yyyy / MM / dd')
-                : '???? / ?? / ??'}
+              {rangeDate.end ? format(rangeDate.end, 'yyyy / MM / dd') : '???? / ?? / ??'}
             </Text>
             <MultipleDatePicker
               selectedDate={new Date()}
@@ -120,9 +112,7 @@ export default function App() {
 
         <StyleSettingForm
           datePickerStyleConfig={datePickerStyle}
-          onSetDatePIckerStyleConfig={(styleConfig) =>
-            setDatePickerStyle(styleConfig)
-          }
+          onSetDatePIckerStyleConfig={setDatePickerStyle}
         />
       </Flex>
     </PageContainer>
