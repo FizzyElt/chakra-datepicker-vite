@@ -31,46 +31,46 @@ export default function Day({
   onSetDate,
   dayStyleConfig,
 }: DayProps) {
-  const mergedDayStyleConfig: DayStyleConfig = R.mergeRight(
-    defaultDayStyle,
-    dayStyleConfig || {}
-  );
+  const mergedDayStyleConfig: DayStyleConfig = R.mergeRight(defaultDayStyle, dayStyleConfig || {});
 
-  switch (dayType) {
-    case DayType.NONE:
-      return <None dayStyleConfig={mergedDayStyleConfig} />;
-    case DayType.ACTIVE:
-      return <Active dayStyleConfig={mergedDayStyleConfig} day={day} />;
-    case DayType.DISABLE:
-      return <Disable dayStyleConfig={mergedDayStyleConfig} day={day} />;
-    case DayType.PERIOD:
-      return (
-        <Period
-          dayStyleConfig={mergedDayStyleConfig}
-          day={day}
-          onClick={() => onSetDate?.(date)}
-        />
-      );
-    case DayType.ACTIVE_START:
-      return <ActiveStart day={day} dayStyleConfig={mergedDayStyleConfig} />;
-    case DayType.ACTIVE_END:
-      return (
+  const renderDay = R.cond([
+    [R.equals(DayType.NONE), R.always(<None dayStyleConfig={mergedDayStyleConfig} />)],
+    [
+      R.equals(DayType.ACTIVE),
+      R.always(<Active dayStyleConfig={mergedDayStyleConfig} day={day} />),
+    ],
+    [
+      R.equals(DayType.DISABLE),
+      R.always(<Disable dayStyleConfig={mergedDayStyleConfig} day={day} />),
+    ],
+    [
+      R.equals(DayType.PERIOD),
+      R.always(
+        <Period dayStyleConfig={mergedDayStyleConfig} day={day} onClick={() => onSetDate?.(date)} />
+      ),
+    ],
+    [
+      R.equals(DayType.ACTIVE_START),
+      R.always(<ActiveStart day={day} dayStyleConfig={mergedDayStyleConfig} />),
+    ],
+    [
+      R.equals(DayType.ACTIVE_END),
+      R.always(
         <ActiveEnd
           day={day}
           dayStyleConfig={mergedDayStyleConfig}
           onClick={() => onSetDate?.(date)}
         />
-      );
-    case DayType.NORMAL:
-      return (
-        <Normal
-          onClick={() => onSetDate?.(date)}
-          dayStyleConfig={mergedDayStyleConfig}
-          day={day}
-        />
-      );
+      ),
+    ],
+    [
+      R.equals(DayType.NORMAL),
+      R.always(
+        <Normal onClick={() => onSetDate?.(date)} dayStyleConfig={mergedDayStyleConfig} day={day} />
+      ),
+    ],
+    [R.T, R.always(<None dayStyleConfig={mergedDayStyleConfig} />)],
+  ]);
 
-    default:
-      return <None dayStyleConfig={mergedDayStyleConfig} />;
-  }
+  return renderDay(dayType);
 }
