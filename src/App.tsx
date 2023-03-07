@@ -1,26 +1,23 @@
 import React, { useState } from 'react';
 
-import { Box, VStack, Text, Flex } from '@chakra-ui/react';
+import { Box, VStack, Text, Flex, useDisclosure, Button } from '@chakra-ui/react';
 import PageContainer from './container/PageContainer';
 import StyleSettingForm from './components/StyleSettingsForm';
 
 import { DatePickerStyleConfig, defaultDatePickerStyle } from './components/DatePicker/type';
-import { SingleDatePicker, MultipleDatePicker } from './components/DatePicker';
-import { DayType } from './components/DatePicker/Calendar/type';
+import {
+  SingleDatePicker,
+  RangeDatePicker,
+  SingleDatePickerPopup,
+  RangeDatePickerPopup,
+} from './components/DatePicker';
 
-import { format, isSameDay, isAfter, isBefore } from 'date-fns';
+import { format } from 'date-fns';
 
 export default function App() {
   // single date picker block
   const [selectedDate, setSelectedDate] = useState(new Date());
-
-  const handleDayRulesFn = (date: Date): DayType => {
-    if (isSameDay(selectedDate, date)) {
-      return DayType.ACTIVE;
-    }
-
-    return DayType.NORMAL;
-  };
+  const [popupSelectedDate, setPopupSelectedDate] = useState(new Date());
 
   // multiple date picker block
   const [rangeDate, setRangeDate] = useState<{
@@ -31,53 +28,16 @@ export default function App() {
     end: null,
   });
 
-  const handleMultiDayRulesFn = (date: Date) => {
-    if (rangeDate.start && !rangeDate.end && isSameDay(rangeDate.start, date)) {
-      return DayType.ACTIVE;
-    }
+  const [popupRangeDate, setPopupRangeDate] = useState<{
+    start: Date | null;
+    end: Date | null;
+  }>({
+    start: null,
+    end: null,
+  });
 
-    if (!rangeDate.start || !rangeDate.end) {
-      return DayType.NORMAL;
-    }
-
-    if (isSameDay(rangeDate.start, date)) {
-      return DayType.ACTIVE_START;
-    }
-
-    if (isSameDay(rangeDate.end, date)) {
-      return DayType.ACTIVE_END;
-    }
-
-    if (isAfter(date, rangeDate.start) && isBefore(date, rangeDate.end)) {
-      return DayType.PERIOD;
-    }
-
-    return DayType.NORMAL;
-  };
-
-  const handleSetRangeDate = (date: Date) => {
-    if (!rangeDate.start) {
-      setRangeDate({
-        start: date,
-        end: null,
-      });
-      return;
-    }
-
-    if (!rangeDate.end) {
-      setRangeDate((prev) => {
-        return prev.start && isBefore(date, prev.start)
-          ? { start: date, end: prev.start }
-          : { ...prev, end: date };
-      });
-      return;
-    }
-
-    setRangeDate({
-      start: date,
-      end: null,
-    });
-  };
+  const pickerDisclosure = useDisclosure();
+  const rangePickerDisclosure = useDisclosure();
 
   const [datePickerStyle, setDatePickerStyle] =
     useState<DatePickerStyleConfig>(defaultDatePickerStyle);
@@ -90,8 +50,7 @@ export default function App() {
             <SingleDatePicker
               selectedDate={selectedDate}
               datePickerStyle={datePickerStyle}
-              onSetDate={(date) => setSelectedDate(date)}
-              onDayTypeRulesFn={handleDayRulesFn}
+              onSetDate={setSelectedDate}
             />
           </Box>
 
@@ -101,12 +60,45 @@ export default function App() {
               {' ~ '}
               {rangeDate.end ? format(rangeDate.end, 'yyyy / MM / dd') : '???? / ?? / ??'}
             </Text>
-            <MultipleDatePicker
-              selectedDate={new Date()}
+            <RangeDatePicker
+              rangeDate={rangeDate}
               datePickerStyle={datePickerStyle}
-              onDayTypeRulesFn={handleMultiDayRulesFn}
-              onSetDate={handleSetRangeDate}
+              onSetRangeDate={setRangeDate}
             />
+          </Box>
+
+          <Box>
+            <SingleDatePickerPopup
+              isOpen={pickerDisclosure.isOpen}
+              onClose={pickerDisclosure.onClose}
+              onOpen={pickerDisclosure.onOpen}
+              selectedDate={popupSelectedDate}
+              onSetDate={setPopupSelectedDate}
+              datePickerStyle={datePickerStyle}
+            >
+              <Button>{format(popupSelectedDate, 'yyyy / MM / dd')}</Button>
+            </SingleDatePickerPopup>
+          </Box>
+
+          <Box>
+            <RangeDatePickerPopup
+              isOpen={rangePickerDisclosure.isOpen}
+              onClose={rangePickerDisclosure.onClose}
+              onOpen={rangePickerDisclosure.onOpen}
+              rangeDate={popupRangeDate}
+              onSetRangeDate={setPopupRangeDate}
+              datePickerStyle={datePickerStyle}
+            >
+              <Button>
+                {popupRangeDate.start
+                  ? format(popupRangeDate.start, 'yyyy / MM / dd')
+                  : '???? / ?? / ??'}
+                {' ~ '}
+                {popupRangeDate.end
+                  ? format(popupRangeDate.end, 'yyyy / MM / dd')
+                  : '???? / ?? / ??'}
+              </Button>
+            </RangeDatePickerPopup>
           </Box>
         </VStack>
 
