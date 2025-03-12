@@ -1,7 +1,7 @@
 import { startOfWeek, addDays, getYear, getMonth, getDate } from 'date-fns';
 import { DayType } from '../Calendar/type';
 
-import * as R from 'ramda';
+import { pipe, Equal, Array as ReadonlyArray } from 'effect';
 
 export type DateRulesFn = (date: Date) => DayType;
 
@@ -18,17 +18,18 @@ export default function dayListGenerator(
 }> {
   const startDate = startOfWeek(new Date(year, month, 1));
 
-  return R.pipe(
-    R.times((index) => addDays(startDate, index)),
-    R.map((date) => ({
+  return pipe(
+    42,
+    ReadonlyArray.makeBy((index) => addDays(startDate, index)),
+    ReadonlyArray.map((date) => ({
       date,
       year: getYear(date),
       month: getMonth(date),
       day: getDate(date),
       dayType:
-        R.equals(getMonth(date), month) && R.equals(getYear(date), year)
+        Equal.equals(getMonth(date), month) && Equal.equals(getYear(date), year)
           ? dateTypeRuleFn(date)
           : DayType.NONE,
     }))
-  )(42);
+  );
 }

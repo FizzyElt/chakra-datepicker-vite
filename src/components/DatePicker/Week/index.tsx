@@ -1,6 +1,8 @@
-import React from 'react'
-import { Flex, Text, Center, FlexProps } from '@chakra-ui/react';
-import { defaultWeekStyleConfig, WeekStyleConfig } from './type';
+import type { FlexProps } from '@chakra-ui/react';
+import { Center, Flex, Text } from '@chakra-ui/react';
+import React from 'react';
+import type { WeekStyleConfig } from './type';
+import { defaultWeekStyleConfig } from './type';
 type WeekProps = {
   weekStyleConfig?: Partial<WeekStyleConfig>;
 } & FlexProps;

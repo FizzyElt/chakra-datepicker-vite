@@ -1,6 +1,6 @@
 import React from 'react';
-import { Center, Text, CenterProps } from '@chakra-ui/react';
-import { DayStyleConfig } from '../type';
+import { Center, Text, type CenterProps } from '@chakra-ui/react';
+import type { DayStyleConfig } from '../type';
 
 type PeriodProps = {
   day?: number | string;
@@ -8,23 +8,16 @@ type PeriodProps = {
 } & CenterProps;
 
 export default function Period({ day, dayStyleConfig, ...props }: PeriodProps) {
-  const {
-    size,
-    color,
-    activeColor,
-    activeBgColor,
-    periodBgColor,
-    periodColor,
-    fontSize,
-  } = dayStyleConfig;
+  const { size, color, activeColor, activeBgColor, periodBgColor, periodColor, fontSize } =
+    dayStyleConfig;
   return (
     <Center
       {...props}
-      m='auto'
+      m="auto"
       h={size}
       w={size}
-      cursor='pointer'
-      pos='relative'
+      cursor="pointer"
+      pos="relative"
       color={periodColor}
       _hover={{
         color: activeColor,
@@ -52,7 +45,7 @@ export default function Period({ day, dayStyleConfig, ...props }: PeriodProps) {
         bgColor: periodBgColor,
       }}
     >
-      <Text pos='relative' fontSize={fontSize} color='inherit' zIndex='2'>
+      <Text pos="relative" fontSize={fontSize} color="inherit" zIndex="2">
         {day}
       </Text>
     </Center>

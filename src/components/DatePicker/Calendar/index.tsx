@@ -1,9 +1,10 @@
+import { SimpleGrid } from '@chakra-ui/react';
+import type { SimpleGridProps } from '@chakra-ui/react';
 import React, { useMemo } from 'react';
-import { SimpleGrid, SimpleGridProps } from '@chakra-ui/react';
 import dayListGenerator from '../utils/dayListGenerator';
+import type { DateRulesFn } from '../utils/dayListGenerator';
 import Day from './Day';
-import { DateRulesFn } from '../utils/dayListGenerator';
-import { DayStyleConfig } from './type';
+import type { DayStyleConfig } from './type';
 
 type CalendarProps = {
   year: number;

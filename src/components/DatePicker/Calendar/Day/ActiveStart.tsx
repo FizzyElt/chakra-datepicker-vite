@@ -1,28 +1,24 @@
+import { Center, type CenterProps, Text } from '@chakra-ui/react';
 import React from 'react';
-import { Center, Text, CenterProps } from '@chakra-ui/react';
 
-import { DayStyleConfig } from '../type';
+import type { DayStyleConfig } from '../type';
+
 type ActiveStartProps = {
   day?: string | number;
   dayStyleConfig: DayStyleConfig;
 } & CenterProps;
 
-export default function ActiveStart({
-  day,
-  dayStyleConfig,
-  ...props
-}: ActiveStartProps) {
-  const { size, activeBgColor, activeColor, periodBgColor, fontSize } =
-    dayStyleConfig;
+export default function ActiveStart({ day, dayStyleConfig, ...props }: ActiveStartProps) {
+  const { size, activeBgColor, activeColor, periodBgColor, fontSize } = dayStyleConfig;
 
   return (
     <Center
       {...props}
-      m='auto'
+      m="auto"
       h={size}
       w={size}
-      cursor='pointer'
-      pos='relative'
+      cursor="pointer"
+      pos="relative"
       _before={{
         content: '""',
         pos: 'absolute',
@@ -44,7 +40,7 @@ export default function ActiveStart({
         bgColor: periodBgColor,
       }}
     >
-      <Text pos='relative' fontSize={fontSize} zIndex='2' color={activeColor}>
+      <Text pos="relative" fontSize={fontSize} zIndex="2" color={activeColor}>
         {day}
       </Text>
     </Center>

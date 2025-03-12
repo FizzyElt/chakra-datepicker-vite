@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 
-import { Box, VStack, Text, Flex, useDisclosure, Button } from '@chakra-ui/react';
-import PageContainer from './container/PageContainer';
+import { Box, Button, Flex, Text, VStack, useDisclosure } from '@chakra-ui/react';
 import StyleSettingForm from './components/StyleSettingsForm';
+import PageContainer from './container/PageContainer';
 
-import { DatePickerStyleConfig, defaultDatePickerStyle } from './components/DatePicker/type';
 import {
-  SingleDatePicker,
   RangeDatePicker,
-  SingleDatePickerPopup,
   RangeDatePickerPopup,
+  SingleDatePicker,
+  SingleDatePickerPopup,
 } from './components/DatePicker';
+import { defaultDatePickerStyle } from './components/DatePicker/type';
+import type { DatePickerStyleConfig } from './components/DatePicker/type';
 
 import { format } from 'date-fns';
 
@@ -44,7 +45,7 @@ export default function App() {
   return (
     <PageContainer>
       <Flex justify="space-between">
-        <VStack align="stretch" spacing={8}>
+        <VStack align="stretch" gap={8}>
           <Box w="fit-content">
             <Text color="white">{format(selectedDate, 'yyyy / MM / dd')}</Text>
             <SingleDatePicker
@@ -69,7 +70,7 @@ export default function App() {
 
           <Box>
             <SingleDatePickerPopup
-              isOpen={pickerDisclosure.isOpen}
+              isOpen={pickerDisclosure.open}
               onClose={pickerDisclosure.onClose}
               onOpen={pickerDisclosure.onOpen}
               selectedDate={popupSelectedDate}
@@ -82,7 +83,7 @@ export default function App() {
 
           <Box>
             <RangeDatePickerPopup
-              isOpen={rangePickerDisclosure.isOpen}
+              isOpen={rangePickerDisclosure.open}
               onClose={rangePickerDisclosure.onClose}
               onOpen={rangePickerDisclosure.onOpen}
               rangeDate={popupRangeDate}

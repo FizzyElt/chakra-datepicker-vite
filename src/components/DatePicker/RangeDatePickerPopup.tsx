@@ -1,13 +1,15 @@
+import { Popover, Portal, Button } from '@chakra-ui/react';
+import type { PropsWithChildren } from 'react';
 import React from 'react';
+import RangeDatePicker from './RangeDatePicker';
+import type { RangeDatePickerProps } from './RangeDatePicker';
 import {
-  Popover,
-  PopoverTrigger,
   PopoverContent,
-  PopoverCloseButton,
   PopoverBody,
+  PopoverRoot,
   PopoverHeader,
-} from '@chakra-ui/react';
-import RangeDatePicker, { RangeDatePickerProps } from './RangeDatePicker';
+  PopoverTrigger,
+} from '../ui/popover';
 
 type RangeDatePickerPopupProps = {
   isOpen: boolean;
@@ -23,28 +25,26 @@ export default function RangeDatePickerPopup({
   datePickerStyle = {},
   onSetRangeDate = () => {},
   children,
-}: React.PropsWithChildren<RangeDatePickerPopupProps>) {
-  console.log(datePickerStyle);
-
+}: PropsWithChildren<RangeDatePickerPopupProps>) {
   return (
-    <Popover isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
+    <Popover.Root isOpen={isOpen} onClose={onClose} onOpen={onOpen}>
       <PopoverTrigger>{children}</PopoverTrigger>
-      <PopoverContent border="none" w="fit-content" bgColor={datePickerStyle.bgColor}>
-        <PopoverHeader border="none" h="30px">
-          <PopoverCloseButton color="white" />
-        </PopoverHeader>
-
-        <PopoverBody p={0}>
-          <RangeDatePicker
-            rangeDate={rangeDate}
-            datePickerStyle={datePickerStyle}
-            onSetRangeDate={(update) => {
-              onSetRangeDate(update);
-              if (update.start && update.end) onClose();
-            }}
-          />
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
+      <Portal>
+        <Popover.Positioner>
+          <Popover.Content border="none" w="fit-content" bgColor={datePickerStyle.bgColor}>
+            <PopoverBody p={0}>
+              <RangeDatePicker
+                rangeDate={rangeDate}
+                datePickerStyle={datePickerStyle}
+                onSetRangeDate={(update) => {
+                  onSetRangeDate(update);
+                  if (update.start && update.end) onClose();
+                }}
+              />
+            </PopoverBody>
+          </Popover.Content>
+        </Popover.Positioner>
+      </Portal>
+    </Popover.Root>
   );
 }

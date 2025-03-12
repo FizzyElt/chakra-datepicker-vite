@@ -1,18 +1,13 @@
-import React, { useState, useMemo, useCallback } from 'react';
-import { Box, Center, IconButton, HStack, Text, Popover, IconButtonProps } from '@chakra-ui/react';
-import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
-
-import { DatePickerStyleConfig, defaultDatePickerStyle } from './type';
+import type { IconButtonProps } from '@chakra-ui/react';
+import { Box, Center, HStack, IconButton, Text } from '@chakra-ui/react';
+import { Struct, pipe } from 'effect';
+import React, { useCallback, useMemo, useState } from 'react';
 import { DayType } from './Calendar/type';
-
-import * as R from 'ramda';
-
-import Week from './Week';
+import type { DatePickerStyleConfig } from './type';
+import { defaultDatePickerStyle } from './type';
 import Calendar from './Calendar';
-
-import addMonths from 'date-fns/fp/addMonths';
-import format from 'date-fns/format';
-import isSameDay from 'date-fns/isSameDay';
+import Week from './Week';
+import { addMonths, format, isSameDay } from 'date-fns';
 
 export type SingleDatePickerProps = {
   selectedDate: Date;
@@ -27,14 +22,21 @@ export default function SingleDatePickerPopup({
 }: SingleDatePickerProps) {
   const [controlDate, setControlDate] = useState(selectedDate);
 
-  const handleNextMonth = () => setControlDate(addMonths(1));
+  const handleNextMonth = () => setControlDate((d) => addMonths(d, 1));
 
-  const handlePrevMonth = () => setControlDate(addMonths(-1));
+  const handlePrevMonth = () => setControlDate((d) => addMonths(d, -1));
 
-  const mergedDatePickerStyle = useMemo(
-    () => R.mergeDeepRight(defaultDatePickerStyle, datePickerStyle),
-    [datePickerStyle]
-  );
+  const mergedDatePickerStyle = useMemo(() => {
+    const res = pipe(
+      { ...defaultDatePickerStyle, ...datePickerStyle },
+      Struct.evolve({
+        weekStyle: (style) => ({ ...style, ...(datePickerStyle.weekStyle || {}) }),
+        dayStyle: (style) => ({ ...style, ...(datePickerStyle.dayStyle || {}) }),
+      })
+    );
+
+    return res;
+  }, [datePickerStyle]);
 
   const btnBaseStyle: Omit<IconButtonProps, 'aria-label'> = {
     bgColor: 'transparent',
@@ -54,21 +56,11 @@ export default function SingleDatePickerPopup({
     <Box bgColor={mergedDatePickerStyle.bgColor} borderRadius="5px">
       <Center>
         <HStack m="auto">
-          <IconButton
-            {...btnBaseStyle}
-            aria-label="prev month"
-            icon={<ChevronLeftIcon />}
-            onClick={handlePrevMonth}
-          />
+          <IconButton {...btnBaseStyle} aria-label="prev month" onClick={handlePrevMonth} />
           <Text minW="6rem" textAlign="center" color={mergedDatePickerStyle.color}>
             {format(controlDate, 'MMMM')}
           </Text>
-          <IconButton
-            {...btnBaseStyle}
-            aria-label="next month"
-            icon={<ChevronRightIcon />}
-            onClick={handleNextMonth}
-          />
+          <IconButton {...btnBaseStyle} aria-label="next month" onClick={handleNextMonth} />
         </HStack>
       </Center>
       <Week p={2} weekStyleConfig={mergedDatePickerStyle.weekStyle} />

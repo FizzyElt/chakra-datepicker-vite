@@ -1,19 +1,9 @@
+import { Field, Heading, Input, type InputProps, VStack } from '@chakra-ui/react';
 import React from 'react';
-import {
-  Input,
-  FormControl,
-  FormLabel,
-  VStack,
-  InputProps,
-  Heading,
-  FormLabelProps,
-} from '@chakra-ui/react';
 
-import * as R from 'ramda';
-
-import { DatePickerStyleConfig } from '../DatePicker/type';
-import { WeekStyleConfig } from '../DatePicker/Week/type';
-import { DayStyleConfig } from '../DatePicker/Calendar/type';
+import type { DayStyleConfig } from '../DatePicker/Calendar/type';
+import type { WeekStyleConfig } from '../DatePicker/Week/type';
+import type { DatePickerStyleConfig } from '../DatePicker/type';
 
 type StyleSettingFormProps = {
   datePickerStyleConfig: DatePickerStyleConfig;
@@ -27,188 +17,144 @@ export default function StyleSettingForm({
   const inputBaseStyle: InputProps = {
     color: 'white',
   };
-  const formLabelBaseStyle: FormLabelProps = {
+  const formLabelBaseStyle: Field.LabelProps = {
     color: 'white',
   };
 
   const handleSetWeekStyle = (weekStyle: Partial<WeekStyleConfig>) => {
-    onSetDatePIckerStyleConfig(
-      R.mergeRight(datePickerStyleConfig, { weekStyle })
-    );
+    onSetDatePIckerStyleConfig({ ...datePickerStyleConfig, weekStyle });
   };
 
   const handleSetDayTypeStyle = (dayStyle: Partial<DayStyleConfig>) => {
-    onSetDatePIckerStyleConfig(
-      R.mergeRight(datePickerStyleConfig, { dayStyle })
-    );
+    onSetDatePIckerStyleConfig({ ...datePickerStyleConfig, dayStyle });
   };
 
   const { weekStyle, dayStyle } = datePickerStyleConfig;
 
   return (
-    <VStack spacing={10}>
+    <VStack gap={10}>
       <VStack>
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>
-            date picker background color
-          </FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>date picker background color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={datePickerStyleConfig.bgColor}
             onChange={(e) =>
-              onSetDatePIckerStyleConfig(
-                R.assoc('bgColor', e.target.value, datePickerStyleConfig)
-              )
+              onSetDatePIckerStyleConfig({ ...datePickerStyleConfig, bgColor: e.target.value })
             }
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>date picker font color</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>date picker font color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={datePickerStyleConfig.color}
             onChange={(e) =>
-              onSetDatePIckerStyleConfig(
-                R.assoc('color', e.target.value, datePickerStyleConfig)
-              )
+              onSetDatePIckerStyleConfig({ ...datePickerStyleConfig, color: e.target.value })
             }
           />
-        </FormControl>
+        </Field.Root>
       </VStack>
 
       <VStack>
-        <Heading color='white' size='sm'>
+        <Heading color="white" size="sm">
           Week bar style
         </Heading>
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>background color</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>background color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={weekStyle.bgColor || ''}
-            onChange={(e) =>
-              handleSetWeekStyle(R.assoc('bgColor', e.target.value, weekStyle))
-            }
+            onChange={(e) => handleSetWeekStyle({ ...weekStyle, bgColor: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>font color</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>font color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={weekStyle.color || ''}
-            onChange={(e) =>
-              handleSetWeekStyle(R.assoc('color', e.target.value, weekStyle))
-            }
+            onChange={(e) => handleSetWeekStyle({ ...weekStyle, color: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>font size</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>font size</Field.Label>
           <Input
             {...inputBaseStyle}
             value={weekStyle.fontSize || ''}
-            onChange={(e) =>
-              handleSetWeekStyle(R.assoc('fontSize', e.target.value, weekStyle))
-            }
+            onChange={(e) => handleSetWeekStyle({ ...weekStyle, fontSize: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
       </VStack>
 
       <VStack>
-        <Heading size='sm' color='white'>
+        <Heading size="sm" color="white">
           day type style
         </Heading>
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>font size</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>font size</Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.fontSize}
-            onChange={(e) =>
-              handleSetDayTypeStyle(
-                R.assoc('fontSize', e.target.value, dayStyle)
-              )
-            }
+            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, fontSize: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>size</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>size</Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.size}
-            onChange={(e) =>
-              handleSetDayTypeStyle(R.assoc('size', e.target.value, dayStyle))
-            }
+            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, size: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>font color</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>font color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.color}
-            onChange={(e) =>
-              handleSetDayTypeStyle(R.assoc('color', e.target.value, dayStyle))
-            }
+            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, color: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>
-            active day background color
-          </FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>active day background color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.activeBgColor}
-            onChange={(e) =>
-              handleSetDayTypeStyle(
-                R.assoc('activeBgColor', e.target.value, dayStyle)
-              )
-            }
+            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, activeBgColor: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>active day font color</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>active day font color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.activeColor}
-            onChange={(e) =>
-              handleSetDayTypeStyle(
-                R.assoc('activeColor', e.target.value, dayStyle)
-              )
-            }
+            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, activeColor: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>
-            period day background color
-          </FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>period day background color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.periodBgColor}
-            onChange={(e) =>
-              handleSetDayTypeStyle(
-                R.assoc('periodBgColor', e.target.value, dayStyle)
-              )
-            }
+            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, periodBgColor: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
 
-        <FormControl>
-          <FormLabel {...formLabelBaseStyle}>period day font color</FormLabel>
+        <Field.Root>
+          <Field.Label {...formLabelBaseStyle}>period day font color</Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.periodColor}
-            onChange={(e) =>
-              handleSetDayTypeStyle(
-                R.assoc('periodColor', e.target.value, dayStyle)
-              )
-            }
+            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, periodColor: e.target.value })}
           />
-        </FormControl>
+        </Field.Root>
       </VStack>
     </VStack>
   );

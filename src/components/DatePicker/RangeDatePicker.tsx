@@ -1,15 +1,22 @@
+import {
+  Box,
+  Flex,
+  HStack,
+  IconButton,
+  type IconButtonProps,
+  Text,
+  VStack,
+} from '@chakra-ui/react';
 import React, { useState, useMemo, useCallback } from 'react';
-import { HStack, VStack, IconButton, IconButtonProps, Flex, Text, Box } from '@chakra-ui/react';
-import { ChevronRightIcon, ChevronLeftIcon } from '@chakra-ui/icons';
 import Calendar from './Calendar';
 import Week from './Week';
 
-import { format, startOfToday, isSameDay, isAfter, isBefore } from 'date-fns';
-import { addMonths } from 'date-fns/fp';
-import * as R from 'ramda';
+import { format, isAfter, isBefore, isSameDay, startOfToday } from 'date-fns';
+import { addMonths } from 'date-fns';
+import { Struct, pipe } from 'effect';
 
-import { DatePickerStyleConfig, defaultDatePickerStyle } from './type';
 import { DayType } from './Calendar/type';
+import { type DatePickerStyleConfig, defaultDatePickerStyle } from './type';
 
 export type RangeDate = {
   start: Date | null;
@@ -29,16 +36,23 @@ export default function RangeDatePicker({
 }: RangeDatePickerProps) {
   const [controlDate, setControlDate] = useState(rangeDate.start || startOfToday());
 
-  const nextMonth = addMonths(1)(controlDate);
+  const nextMonth = addMonths(controlDate, 1);
 
-  const handleNextMonth = () => setControlDate(addMonths(1));
+  const handleNextMonth = () => setControlDate((d) => addMonths(d, 1));
 
-  const handlePrevMonth = () => setControlDate(addMonths(-1));
+  const handlePrevMonth = () => setControlDate((d) => addMonths(d, -1));
 
-  const mergedDatePickerStyle: DatePickerStyleConfig = useMemo(
-    () => R.mergeRight(defaultDatePickerStyle, datePickerStyle),
-    [datePickerStyle]
-  );
+  const mergedDatePickerStyle = useMemo(() => {
+    const res = pipe(
+      { ...defaultDatePickerStyle, ...datePickerStyle },
+      Struct.evolve({
+        weekStyle: (style) => ({ ...style, ...(datePickerStyle.weekStyle || {}) }),
+        dayStyle: (style) => ({ ...style, ...(datePickerStyle.dayStyle || {}) }),
+      })
+    );
+
+    return res;
+  }, [datePickerStyle]);
   const btnBaseStyle: Omit<IconButtonProps, 'aria-label'> = {
     bgColor: 'transparent',
     color: mergedDatePickerStyle.color,
@@ -102,26 +116,14 @@ export default function RangeDatePicker({
   };
 
   return (
-    <VStack align="stretch" bgColor={mergedDatePickerStyle.bgColor} borderRadius="5px" spacing={0}>
+    <VStack align="stretch" bgColor={mergedDatePickerStyle.bgColor} borderRadius="5px" gap={0}>
       <Flex justify="space-around" pos="relative" py={2}>
-        <IconButton
-          {...btnBaseStyle}
-          left="0"
-          aria-label="prev month"
-          icon={<ChevronLeftIcon />}
-          onClick={handlePrevMonth}
-        />
+        <IconButton {...btnBaseStyle} left="0" aria-label="prev month" onClick={handlePrevMonth} />
         <Text color={mergedDatePickerStyle.color}>{format(controlDate, 'MMMM')}</Text>
         <Text color={mergedDatePickerStyle.color}>{format(nextMonth, 'MMMM')}</Text>
-        <IconButton
-          {...btnBaseStyle}
-          right="0"
-          aria-label="next month"
-          icon={<ChevronRightIcon />}
-          onClick={handleNextMonth}
-        />
+        <IconButton {...btnBaseStyle} right="0" aria-label="next month" onClick={handleNextMonth} />
       </Flex>
-      <HStack spacing={0}>
+      <HStack gap={0}>
         <Box>
           <Week p={2} weekStyleConfig={mergedDatePickerStyle.weekStyle} />
           <Calendar
