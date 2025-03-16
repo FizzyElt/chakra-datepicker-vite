@@ -1,11 +1,11 @@
 export enum DayType {
-  NONE = 'NONE',
-  NORMAL = 'NORMAL',
-  DISABLE = 'DISABLE',
-  ACTIVE = 'ACTIVE',
-  PERIOD = 'PERIOD',
-  ACTIVE_START = 'ACTIVE_START',
-  ACTIVE_END = 'ACTIVE_END',
+  NONE = "NONE",
+  NORMAL = "NORMAL",
+  DISABLE = "DISABLE",
+  ACTIVE = "ACTIVE",
+  PERIOD = "PERIOD",
+  ACTIVE_START = "ACTIVE_START",
+  ACTIVE_END = "ACTIVE_END",
 }
 
 export type DayStyleConfig = {
@@ -19,11 +19,11 @@ export type DayStyleConfig = {
 };
 
 export const defaultDayStyle: DayStyleConfig = {
-  fontSize: 'md',
+  fontSize: "md",
   size: 10,
-  color: 'white',
-  activeBgColor: 'teal.500',
-  activeColor: 'white',
-  periodBgColor: 'teal.600',
-  periodColor: 'white',
+  color: "white",
+  activeBgColor: "teal.500",
+  activeColor: "white",
+  periodBgColor: "teal.600",
+  periodColor: "white",
 };

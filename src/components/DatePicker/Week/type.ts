@@ -5,7 +5,7 @@ export type WeekStyleConfig = {
 };
 
 export const defaultWeekStyleConfig: WeekStyleConfig = {
-  bgColor: 'teal.500',
-  color: 'white',
-  fontSize: 'xs',
+  bgColor: "teal.500",
+  color: "white",
+  fontSize: "xs",
 };

@@ -1,9 +1,14 @@
-import { Field, Heading, Input, type InputProps, VStack } from '@chakra-ui/react';
-import React from 'react';
+import {
+  Field,
+  Heading,
+  Input,
+  type InputProps,
+  VStack,
+} from "@chakra-ui/react";
 
-import type { DayStyleConfig } from '../DatePicker/Calendar/type';
-import type { WeekStyleConfig } from '../DatePicker/Week/type';
-import type { DatePickerStyleConfig } from '../DatePicker/type';
+import type { DayStyleConfig } from "../DatePicker/Calendar/type";
+import type { WeekStyleConfig } from "../DatePicker/Week/type";
+import type { DatePickerStyleConfig } from "../DatePicker/type";
 
 type StyleSettingFormProps = {
   datePickerStyleConfig: DatePickerStyleConfig;
@@ -15,10 +20,11 @@ export default function StyleSettingForm({
   onSetDatePIckerStyleConfig,
 }: StyleSettingFormProps) {
   const inputBaseStyle: InputProps = {
-    color: 'white',
+    color: "white",
+    borderColor: "gray.300",
   };
   const formLabelBaseStyle: Field.LabelProps = {
-    color: 'white',
+    color: "white",
   };
 
   const handleSetWeekStyle = (weekStyle: Partial<WeekStyleConfig>) => {
@@ -35,23 +41,33 @@ export default function StyleSettingForm({
     <VStack gap={10}>
       <VStack>
         <Field.Root>
-          <Field.Label {...formLabelBaseStyle}>date picker background color</Field.Label>
+          <Field.Label {...formLabelBaseStyle}>
+            date picker background color
+          </Field.Label>
           <Input
             {...inputBaseStyle}
             value={datePickerStyleConfig.bgColor}
             onChange={(e) =>
-              onSetDatePIckerStyleConfig({ ...datePickerStyleConfig, bgColor: e.target.value })
+              onSetDatePIckerStyleConfig({
+                ...datePickerStyleConfig,
+                bgColor: e.target.value,
+              })
             }
           />
         </Field.Root>
 
         <Field.Root>
-          <Field.Label {...formLabelBaseStyle}>date picker font color</Field.Label>
+          <Field.Label {...formLabelBaseStyle}>
+            date picker font color
+          </Field.Label>
           <Input
             {...inputBaseStyle}
             value={datePickerStyleConfig.color}
             onChange={(e) =>
-              onSetDatePIckerStyleConfig({ ...datePickerStyleConfig, color: e.target.value })
+              onSetDatePIckerStyleConfig({
+                ...datePickerStyleConfig,
+                color: e.target.value,
+              })
             }
           />
         </Field.Root>
@@ -65,8 +81,10 @@ export default function StyleSettingForm({
           <Field.Label {...formLabelBaseStyle}>background color</Field.Label>
           <Input
             {...inputBaseStyle}
-            value={weekStyle.bgColor || ''}
-            onChange={(e) => handleSetWeekStyle({ ...weekStyle, bgColor: e.target.value })}
+            value={weekStyle.bgColor || ""}
+            onChange={(e) =>
+              handleSetWeekStyle({ ...weekStyle, bgColor: e.target.value })
+            }
           />
         </Field.Root>
 
@@ -74,8 +92,10 @@ export default function StyleSettingForm({
           <Field.Label {...formLabelBaseStyle}>font color</Field.Label>
           <Input
             {...inputBaseStyle}
-            value={weekStyle.color || ''}
-            onChange={(e) => handleSetWeekStyle({ ...weekStyle, color: e.target.value })}
+            value={weekStyle.color || ""}
+            onChange={(e) =>
+              handleSetWeekStyle({ ...weekStyle, color: e.target.value })
+            }
           />
         </Field.Root>
 
@@ -83,8 +103,10 @@ export default function StyleSettingForm({
           <Field.Label {...formLabelBaseStyle}>font size</Field.Label>
           <Input
             {...inputBaseStyle}
-            value={weekStyle.fontSize || ''}
-            onChange={(e) => handleSetWeekStyle({ ...weekStyle, fontSize: e.target.value })}
+            value={weekStyle.fontSize || ""}
+            onChange={(e) =>
+              handleSetWeekStyle({ ...weekStyle, fontSize: e.target.value })
+            }
           />
         </Field.Root>
       </VStack>
@@ -98,7 +120,9 @@ export default function StyleSettingForm({
           <Input
             {...inputBaseStyle}
             value={dayStyle.fontSize}
-            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, fontSize: e.target.value })}
+            onChange={(e) =>
+              handleSetDayTypeStyle({ ...dayStyle, fontSize: e.target.value })
+            }
           />
         </Field.Root>
 
@@ -107,7 +131,9 @@ export default function StyleSettingForm({
           <Input
             {...inputBaseStyle}
             value={dayStyle.size}
-            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, size: e.target.value })}
+            onChange={(e) =>
+              handleSetDayTypeStyle({ ...dayStyle, size: e.target.value })
+            }
           />
         </Field.Root>
 
@@ -116,43 +142,73 @@ export default function StyleSettingForm({
           <Input
             {...inputBaseStyle}
             value={dayStyle.color}
-            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, color: e.target.value })}
+            onChange={(e) =>
+              handleSetDayTypeStyle({ ...dayStyle, color: e.target.value })
+            }
           />
         </Field.Root>
 
         <Field.Root>
-          <Field.Label {...formLabelBaseStyle}>active day background color</Field.Label>
+          <Field.Label {...formLabelBaseStyle}>
+            active day background color
+          </Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.activeBgColor}
-            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, activeBgColor: e.target.value })}
+            onChange={(e) =>
+              handleSetDayTypeStyle({
+                ...dayStyle,
+                activeBgColor: e.target.value,
+              })
+            }
           />
         </Field.Root>
 
         <Field.Root>
-          <Field.Label {...formLabelBaseStyle}>active day font color</Field.Label>
+          <Field.Label {...formLabelBaseStyle}>
+            active day font color
+          </Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.activeColor}
-            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, activeColor: e.target.value })}
+            onChange={(e) =>
+              handleSetDayTypeStyle({
+                ...dayStyle,
+                activeColor: e.target.value,
+              })
+            }
           />
         </Field.Root>
 
         <Field.Root>
-          <Field.Label {...formLabelBaseStyle}>period day background color</Field.Label>
+          <Field.Label {...formLabelBaseStyle}>
+            period day background color
+          </Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.periodBgColor}
-            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, periodBgColor: e.target.value })}
+            onChange={(e) =>
+              handleSetDayTypeStyle({
+                ...dayStyle,
+                periodBgColor: e.target.value,
+              })
+            }
           />
         </Field.Root>
 
         <Field.Root>
-          <Field.Label {...formLabelBaseStyle}>period day font color</Field.Label>
+          <Field.Label {...formLabelBaseStyle}>
+            period day font color
+          </Field.Label>
           <Input
             {...inputBaseStyle}
             value={dayStyle.periodColor}
-            onChange={(e) => handleSetDayTypeStyle({ ...dayStyle, periodColor: e.target.value })}
+            onChange={(e) =>
+              handleSetDayTypeStyle({
+                ...dayStyle,
+                periodColor: e.target.value,
+              })
+            }
           />
         </Field.Root>
       </VStack>

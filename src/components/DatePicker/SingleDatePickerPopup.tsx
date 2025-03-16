@@ -1,8 +1,14 @@
-import { Popover, Portal } from '@chakra-ui/react';
-import type { PropsWithChildren } from 'react';
-import React from 'react';
-import SingleDatePicker from './SingleDatePicker';
-import type { SingleDatePickerProps } from './SingleDatePicker';
+import type { PropsWithChildren } from "react";
+import SingleDatePicker, {
+  type SingleDatePickerProps,
+} from "./SingleDatePicker";
+
+import {
+  PopoverRoot,
+  PopoverContent,
+  PopoverBody,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 type SingleDatePickerPopupProps = {
   isOpen: boolean;
@@ -20,27 +26,23 @@ export default function SingleDatePickerPopup({
   children,
 }: PropsWithChildren<SingleDatePickerPopupProps>) {
   return (
-    <Popover.Root
+    <PopoverRoot
       open={isOpen}
-      onOpenChange={(e: { open: boolean }) => (e.open ? onOpen() : onClose())}
+      onOpenChange={(e) => (e.open ? onOpen() : onClose())}
     >
-      <Popover.Trigger>{children}</Popover.Trigger>
-      <Portal>
-        <Popover.Positioner>
-          <Popover.Content>
-            <Popover.Body p={0} width="auto">
-              <SingleDatePicker
-                selectedDate={selectedDate}
-                datePickerStyle={datePickerStyle}
-                onSetDate={(date) => {
-                  onClose();
-                  onSetDate?.(date);
-                }}
-              />
-            </Popover.Body>
-          </Popover.Content>
-        </Popover.Positioner>
-      </Portal>
-    </Popover.Root>
+      <PopoverTrigger>{children}</PopoverTrigger>
+      <PopoverContent>
+        <PopoverBody p={0} width="auto">
+          <SingleDatePicker
+            selectedDate={selectedDate}
+            datePickerStyle={datePickerStyle}
+            onSetDate={(date) => {
+              onClose();
+              onSetDate?.(date);
+            }}
+          />
+        </PopoverBody>
+      </PopoverContent>
+    </PopoverRoot>
   );
 }

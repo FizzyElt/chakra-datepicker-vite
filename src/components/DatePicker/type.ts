@@ -1,7 +1,7 @@
-import type { DayStyleConfig } from './Calendar/type';
-import { defaultDayStyle } from './Calendar/type';
-import type { WeekStyleConfig } from './Week/type';
-import { defaultWeekStyleConfig } from './Week/type';
+import type { DayStyleConfig } from "./Calendar/type";
+import { defaultDayStyle } from "./Calendar/type";
+import type { WeekStyleConfig } from "./Week/type";
+import { defaultWeekStyleConfig } from "./Week/type";
 
 export type DatePickerStyleConfig = {
   bgColor: string;
@@ -11,8 +11,8 @@ export type DatePickerStyleConfig = {
 };
 
 export const defaultDatePickerStyle: DatePickerStyleConfig = {
-  bgColor: 'gray.700',
-  color: 'white',
+  bgColor: "gray.700",
+  color: "white",
   weekStyle: defaultWeekStyleConfig,
   dayStyle: defaultDayStyle,
 };

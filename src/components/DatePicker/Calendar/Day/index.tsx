@@ -1,15 +1,15 @@
-import React, { useMemo } from 'react';
+import { useMemo } from "react";
 
-import Active from './Active';
-import ActiveEnd from './ActiveEnd';
-import ActiveStart from './ActiveStart';
-import Disable from './Disable';
-import None from './None';
-import Normal from './Normal';
-import Period from './Period';
+import Active from "./Active";
+import ActiveEnd from "./ActiveEnd";
+import ActiveStart from "./ActiveStart";
+import Disable from "./Disable";
+import None from "./None";
+import Normal from "./Normal";
+import Period from "./Period";
 
-import { DayType } from '../type';
-import { type DayStyleConfig, defaultDayStyle } from '../type';
+import { DayType } from "../type";
+import { type DayStyleConfig, defaultDayStyle } from "../type";
 
 type DayProps = {
   date: Date;
@@ -31,7 +31,7 @@ export default function Day({
 }: DayProps) {
   const mergedDayStyleConfig: DayStyleConfig = useMemo(
     () => ({ ...defaultDayStyle, ...dayStyleConfig }),
-    [dayStyleConfig]
+    [dayStyleConfig],
   );
 
   switch (dayType) {
@@ -43,7 +43,11 @@ export default function Day({
       return <Disable dayStyleConfig={mergedDayStyleConfig} day={day} />;
     case DayType.PERIOD:
       return (
-        <Period dayStyleConfig={mergedDayStyleConfig} day={day} onClick={() => onSetDate?.(date)} />
+        <Period
+          dayStyleConfig={mergedDayStyleConfig}
+          day={day}
+          onClick={() => onSetDate?.(date)}
+        />
       );
     case DayType.ACTIVE_START:
       return <ActiveStart day={day} dayStyleConfig={mergedDayStyleConfig} />;
@@ -57,7 +61,11 @@ export default function Day({
       );
     case DayType.NORMAL:
       return (
-        <Normal onClick={() => onSetDate?.(date)} dayStyleConfig={mergedDayStyleConfig} day={day} />
+        <Normal
+          onClick={() => onSetDate?.(date)}
+          dayStyleConfig={mergedDayStyleConfig}
+          day={day}
+        />
       );
     default:
       return <None dayStyleConfig={mergedDayStyleConfig} />;

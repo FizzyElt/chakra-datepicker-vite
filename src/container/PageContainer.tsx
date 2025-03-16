@@ -1,5 +1,5 @@
-import type React from 'react';
-import { Box } from '@chakra-ui/react';
+import type React from "react";
+import { Box } from "@chakra-ui/react";
 
 type PageContainerProps = {
   children?: React.ReactNode;

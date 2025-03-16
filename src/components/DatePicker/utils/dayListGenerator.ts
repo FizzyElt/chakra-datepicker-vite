@@ -1,14 +1,14 @@
-import { startOfWeek, addDays, getYear, getMonth, getDate } from 'date-fns';
-import { DayType } from '../Calendar/type';
+import { startOfWeek, addDays, getYear, getMonth, getDate } from "date-fns";
+import { DayType } from "../Calendar/type";
 
-import { pipe, Equal, Array as ReadonlyArray } from 'effect';
+import { pipe, Equal, Array as ReadonlyArray } from "effect";
 
 export type DateRulesFn = (date: Date) => DayType;
 
 export default function dayListGenerator(
   year: number,
   month: number,
-  dateTypeRuleFn: DateRulesFn
+  dateTypeRuleFn: DateRulesFn,
 ): Array<{
   date: Date;
   year: number;
@@ -30,6 +30,6 @@ export default function dayListGenerator(
         Equal.equals(getMonth(date), month) && Equal.equals(getYear(date), year)
           ? dateTypeRuleFn(date)
           : DayType.NONE,
-    }))
+    })),
   );
 }

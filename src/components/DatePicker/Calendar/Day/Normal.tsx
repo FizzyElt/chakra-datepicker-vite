@@ -1,6 +1,5 @@
-import { Center, type CenterProps, Text } from '@chakra-ui/react';
-import React from 'react';
-import type { DayStyleConfig } from '../type';
+import { Center, type CenterProps, Text } from "@chakra-ui/react";
+import type { DayStyleConfig } from "../type";
 
 type NormalProps = {
   day?: number | string;
@@ -27,12 +26,12 @@ export default function Normal({ day, dayStyleConfig, ...props }: NormalProps) {
       }}
       _before={{
         content: '""',
-        pos: 'absolute',
-        zIndex: '0',
-        borderRadius: 'full',
-        h: 'full',
-        w: 'full',
-        transition: '0.3s',
+        pos: "absolute",
+        zIndex: "0",
+        borderRadius: "full",
+        h: "full",
+        w: "full",
+        transition: "0.3s",
       }}
     >
       <Text pos="relative" fontSize={fontSize} color="inherit" zIndex="1">
